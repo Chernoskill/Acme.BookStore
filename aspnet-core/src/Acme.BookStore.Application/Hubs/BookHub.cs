@@ -11,8 +11,11 @@ using Volo.Abp.Domain.Entities;
 
 namespace Acme.BookStore.Hubs;
 
-public class BookHub : AbpHub<IBookHub>
+public class BookHub : AbpHub<IBookHub>, IUnitOfWorkEnabled
 {
+    /*
+    // As suggested in https://github.com/abpframework/abp/issues/18793#issuecomment-1897958325, implementing the IUnitOfWorkEnabled interface could be a solution
+    // Effectively, implementing the interface does not work, the database operations are not applied.
     public async override Task OnConnectedAsync()
     {
         IUnitOfWorkManager uowm = LazyServiceProvider.LazyGetRequiredService<IUnitOfWorkManager>();
@@ -27,6 +30,7 @@ public class BookHub : AbpHub<IBookHub>
         }
         await base.OnConnectedAsync();
     }
+    */
 
     [HubMethodName("CreateOrUpdateBook")]
     public async Task CreateOrUpdateBookAsync(CreateUpdateBookDto createDto, Guid? id)
